@@ -46,6 +46,21 @@ export interface InvoiceStats {
   invoiceCount: number;
 }
 
+export interface AuditLog {
+  id: number;
+  action: string;
+  previousStatus: string;
+  newStatus: string;
+  comment: string;
+  actionedBy: string;
+  actionedAt: string;
+}
+
+export interface ApprovalRequest {
+  comment: string;
+  actionedBy: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -81,6 +96,21 @@ export class AgentService {
 
   getStats(): Observable<InvoiceStats> {
     return this.http.get<InvoiceStats>(`${this.apiUrl}/invoices/stats`);
+  }
+
+  approveInvoice(id: number, request: ApprovalRequest): Observable<Invoice> {
+    return this.http.post<Invoice>(
+      `${this.apiUrl}/invoices/${id}/approve`, request);
+  }
+
+  rejectInvoice(id: number, request: ApprovalRequest): Observable<Invoice> {
+    return this.http.post<Invoice>(
+      `${this.apiUrl}/invoices/${id}/reject`, request);
+  }
+
+  getAuditTrail(id: number): Observable<AuditLog[]> {
+    return this.http.get<AuditLog[]>(
+      `${this.apiUrl}/invoices/${id}/audit`);
   }
 }
 

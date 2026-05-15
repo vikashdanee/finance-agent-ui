@@ -84,3 +84,34 @@
     }
   }
 }
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.pending  { background: #fff3e0; color: #e65100; }
+  &.approved { background: #e8f5e9; color: #2e7d32; }
+  &.paid     { background: #e3f2fd; color: #1565c0; }
+  &.rejected { background: #fce4ec; color: #c62828; }
+  &.anomaly  { background: #fce4ec; color: #c62828; }
+}
+
+.action-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.audit-card {
+  margin-top: 8px;
+
+  mat-card-header {
+    margin-bottom: 12px;
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
