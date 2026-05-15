@@ -1,0 +1,86 @@
+.invoice-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header-card {
+  mat-card-header {
+    margin-bottom: 16px;
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+    }
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      flex: 1;
+      min-width: 140px;
+
+      mat-icon { font-size: 32px; width: 32px; height: 32px; }
+
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        opacity: 0.8;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      &.total   { background: #e3f2fd; color: #1565c0; }
+      &.pending { background: #fff3e0; color: #e65100; }
+      &.anomaly { background: #fce4ec; color: #c62828; }
+      &.paid    { background: #e8f5e9; color: #2e7d32; }
+    }
+  }
+}
+
+.table-card {
+  .invoice-table {
+    width: 100%;
+
+    th {
+      font-weight: 600;
+      color: #555;
+      background: #fafafa;
+    }
+
+    .anomaly-row {
+      background: #fff8e1;
+      &:hover { background: #fff3cd; }
+    }
+
+    .category-badge {
+      background: #e8eaf6;
+      color: #3949ab;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-select {
+      font-size: 13px;
+      width: 120px;
+    }
+  }
+}

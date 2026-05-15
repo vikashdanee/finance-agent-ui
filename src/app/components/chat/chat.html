@@ -1,0 +1,54 @@
+<div class="chat-wrapper">
+  <mat-card class="chat-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>smart_toy</mat-icon>
+        Finance Agent
+      </mat-card-title>
+      <mat-card-subtitle>AI-powered invoice analysis</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="messages-container" #messageContainer>
+        @for (msg of messages; track $index) {
+          <div class="message" [class.user]="msg.role === 'user'"
+               [class.agent]="msg.role === 'agent'">
+            <div class="avatar">
+              <mat-icon>{{ msg.role === 'user' ? 'person' : 'smart_toy' }}</mat-icon>
+            </div>
+            <div class="bubble">
+              <div class="content">{{ msg.content }}</div>
+              <span class="time">{{ msg.timestamp | date:'shortTime' }}</span>
+            </div>
+          </div>
+        }
+
+        @if (isLoading) {
+          <div class="message agent">
+            <div class="avatar"><mat-icon>smart_toy</mat-icon></div>
+            <div class="bubble loading">
+              <mat-spinner diameter="18"></mat-spinner>
+              <span>Thinking...</span>
+            </div>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+
+    <div class="input-area">
+      <input
+        class="chat-input"
+        [(ngModel)]="userInput"
+        (keydown)="onKeyDown($event)"
+        placeholder="Ask about invoices, spending, anomalies..."
+        [disabled]="isLoading"
+        autocomplete="off"
+      />
+      <button class="send-btn"
+              (click)="sendMessage()"
+              [disabled]="isLoading || !userInput.trim()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>
