@@ -1,0 +1,110 @@
+<div class="upload-wrapper">
+  <mat-card class="upload-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>upload_file</mat-icon>
+        Upload Invoice
+      </mat-card-title>
+      <mat-card-subtitle>
+        Upload a PDF invoice — AI will extract and analyze it automatically
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (!uploadResult) {
+        <!-- Drop Zone -->
+        <div class="drop-zone"
+             [class.dragging]="isDragging"
+             [class.uploading]="isUploading"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)"
+             (click)="triggerFileInput()">
+
+          <input id="fileInput"
+                 type="file"
+                 accept=".pdf"
+                 style="display:none"
+                 (change)="onFileSelected($event)">
+
+          @if (isUploading) {
+            <mat-icon class="upload-icon spinning">refresh</mat-icon>
+            <p class="drop-text">Processing invoice...</p>
+            <p class="drop-sub">AI is extracting data and checking for anomalies</p>
+            <mat-progress-bar mode="indeterminate" class="progress"></mat-progress-bar>
+          } @else {
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <p class="drop-text">Drop your PDF here or click to browse</p>
+            <p class="drop-sub">Supported format: PDF up to 10MB</p>
+            <button mat-raised-button color="primary" class="browse-btn"
+                    (click)="triggerFileInput()">
+              <mat-icon>folder_open</mat-icon>
+              Browse Files
+            </button>
+          }
+        </div>
+      }
+
+      @if (uploadResult) {
+        <!-- Result Card -->
+        <div class="result-card" [class.anomaly]="uploadResult.anomalyDetected">
+          <div class="result-header">
+            <mat-icon [color]="uploadResult.anomalyDetected ? 'warn' : 'primary'">
+              {{ uploadResult.anomalyDetected ? 'warning' : 'check_circle' }}
+            </mat-icon>
+            <span>{{ uploadResult.message }}</span>
+          </div>
+
+          @if (uploadResult.invoice) {
+            <div class="result-details">
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="label">Invoice #</span>
+                  <span class="value">{{ uploadResult.invoice.invoiceNumber || 'N/A' }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Vendor</span>
+                  <span class="value">{{ uploadResult.invoice.vendorName || 'N/A' }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Amount</span>
+                  <span class="value">{{ uploadResult.invoice.totalAmount | currency }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Date</span>
+                  <span class="value">{{ uploadResult.invoice.invoiceDate }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Category</span>
+                  <span class="value">{{ uploadResult.invoice.category || 'N/A' }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Status</span>
+                  <span class="value">{{ uploadResult.invoice.status }}</span>
+                </div>
+              </div>
+
+              @if (uploadResult.anomalyDetected) {
+                <div class="anomaly-banner">
+                  <mat-icon>warning</mat-icon>
+                  <span>{{ uploadResult.invoice.anomalyReason }}</span>
+                </div>
+              }
+            </div>
+          }
+
+          <div class="result-actions">
+            <button mat-raised-button color="primary" (click)="reset()">
+              <mat-icon>upload_file</mat-icon>
+              Upload Another
+            </button>
+            <button mat-button routerLink="/invoices">
+              <mat-icon>receipt_long</mat-icon>
+              View All Invoices
+            </button>
+          </div>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

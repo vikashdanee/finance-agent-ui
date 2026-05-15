@@ -40,6 +40,20 @@ import { MatIconModule } from '@angular/material/icon';
           <mat-icon>receipt_long</mat-icon>
           <span>Invoices</span>
         </button>
+        <button mat-button
+                routerLink="/upload"
+                routerLinkActive="active-nav"
+                class="nav-btn">
+          <mat-icon>upload_file</mat-icon>
+          <span>Upload</span>
+        </button>
+        <button mat-button
+                routerLink="/dashboard"
+                routerLinkActive="active-nav"
+                class="nav-btn">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </button>
       </div>
     </mat-toolbar>
 

@@ -37,6 +37,15 @@ export interface InvoiceUploadResponse {
   message: string;
 }
 
+export interface InvoiceStats {
+  categorySpend: Record<string, number>;
+  vendorSpend: Record<string, number>;
+  statusCounts: Record<string, number>;
+  totalSpend: number;
+  anomalyCount: number;
+  invoiceCount: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -69,4 +78,11 @@ export class AgentService {
       `${this.apiUrl}/invoices/${id}/status?status=${status}`, {}
     );
   }
+
+  getStats(): Observable<InvoiceStats> {
+    return this.http.get<InvoiceStats>(`${this.apiUrl}/invoices/stats`);
+  }
 }
+
+
+
